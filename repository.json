@@ -1,6 +1,21 @@
 {
     "packages": [
-        "fluff-core"
+        "fluff-bin",
+        "fluff-commander",
+        "fluff-commons",
+        "fluff-core",
+        "fluff-crypto",
+        "fluff-events",
+        "fluff-files",
+        "fluff-functions",
+        "fluff-github",
+        "fluff-http",
+        "fluff-json",
+        "fluff-loader",
+        "fluff-logging",
+        "fluff-platform",
+        "fluff-reflection",
+        "fluff-sorting"
     ],
     "repositories": [
         
