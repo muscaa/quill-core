@@ -1,4 +1,5 @@
 {
+    "scope": "system",
     "packages": [
         "fluff-bin",
         "fluff-commander",
