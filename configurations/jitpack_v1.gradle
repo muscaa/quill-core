@@ -22,7 +22,7 @@ tasks.register("jitpack_v1", Zip) {
         }
     }
     
-    into("scripts") {
+    into("bin") {
         from(sourceSets.scripts.resources)
     }
 }
