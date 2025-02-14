@@ -1,1 +1,1 @@
-# quill-template
+# quill-core
