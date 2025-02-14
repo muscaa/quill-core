@@ -1,0 +1,21 @@
+apply from: "configurations/init.gradle"
+apply from: "configurations/jitpack_v1.gradle"
+
+ext.quillPackage = [
+    author: "muscaa",
+    id: "quill-template",
+    version: project.version,
+    mainClass: null,
+    depends: [
+        "muscaa@quill-core"
+    ],
+]
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    // add dependencies
+}

@@ -1,0 +1,76 @@
+apply plugin: "java-library"
+apply plugin: "maven-publish"
+
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+sourceSets {
+    scripts {
+        resources {
+            srcDirs = [ "src/main/scripts" ]
+        }
+    }
+}
+
+configurations {
+    // required at compile & runtime, not included, not published
+    require {
+        canBeResolved = true
+        canBeConsumed = true
+    }
+    
+    // required at compile & runtime, included, published
+    include {
+        canBeResolved = true
+        canBeConsumed = true
+    }
+    
+    // shaded dependencies
+    shade {
+        canBeResolved = true
+        canBeConsumed = true
+    }
+    
+    compileClasspath.extendsFrom(require)
+    runtimeClasspath.extendsFrom(require)
+    testCompileClasspath.extendsFrom(require)
+    testRuntimeClasspath.extendsFrom(require)
+    
+    api.extendsFrom(include)
+    require.extendsFrom(shade)
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+jar {
+    into("META-INF") {
+        from("${rootProject.projectDir}/LICENSE")
+        from("${rootProject.projectDir}/NOTICE")
+    }
+    
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    dependsOn configurations.shade
+    from {
+        configurations.shade.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}

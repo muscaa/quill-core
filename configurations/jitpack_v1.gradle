@@ -1,0 +1,32 @@
+def m2RepoDir = new File(System.getProperty("user.home"), ".m2/repository")
+def groupDir = new File(m2RepoDir, project.group.replace('.', '/'))
+def publishDir = new File(groupDir, "${project.name}/${project.version}")
+
+tasks.register("jitpack_v1", Zip) {
+    doLast {
+        def file = new File(publishDir, "quill-package.war")
+        def quillPackageJson = groovy.json.JsonOutput.toJson(quillPackage)
+        file.text = groovy.json.JsonOutput.prettyPrint(quillPackageJson)
+    }
+    
+    destinationDirectory.set(publishDir)
+    archiveFileName.set("quill-package.zip")
+    
+    into("java/main") {
+        from(zipTree(tasks.named("jar").get().archiveFile))
+    }
+    
+    configurations.include.each { file ->
+        from(file.isDirectory() ? file : zipTree(file)) {
+            into("java/" + file.name.replaceAll(".jar", ""))
+        }
+    }
+    
+    into("scripts") {
+        from(sourceSets.scripts.resources)
+    }
+}
+
+tasks.named("publishToMavenLocal") {
+    finalizedBy "jitpack_v1"
+}
