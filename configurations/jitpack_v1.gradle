@@ -22,9 +22,7 @@ tasks.register("jitpack_v1", Zip) {
         }
     }
     
-    into("bin") {
-        from(sourceSets.scripts.resources)
-    }
+    from(sourceSets.bundle.resources)
 }
 
 tasks.named("publishToMavenLocal") {

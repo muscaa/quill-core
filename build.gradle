@@ -3,11 +3,9 @@ apply from: "configurations/jitpack_v1.gradle"
 
 ext.quillPackage = [
     author: "muscaa",
-    id: "quill-template",
+    id: "quill-core",
     version: project.version,
-    mainClass: null,
     depends: [
-        "muscaa@quill-core"
     ],
 ]
 
